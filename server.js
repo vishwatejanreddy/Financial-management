@@ -1,23 +1,17 @@
-// server.js — Main Express server
 const express = require('express');
 const path = require('path');
-const routes = require('./routes');
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
-// Middleware
-app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
+// Serve files from current folder
+app.use(express.static(__dirname));
 
-// API routes
-app.use('/api', routes);
-
-// Serve index for all unknown routes (SPA fallback)
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+// Home page
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 app.listen(PORT, () => {
-  console.log(`\n✅  FinanceApp running at http://localhost:${PORT}\n`);
+  console.log(`FinanceIQ running on port ${PORT}`);
 });
