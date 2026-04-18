@@ -1,28 +1,18 @@
-// db.js — Simple in-memory user store (no MongoDB needed)
-const bcrypt = require('bcryptjs');
+// server.js
+const express = require('express');
+const path = require('path');
 
-const users = []; // Stores { id, name, email, password (hashed) }
+const app = express();
+const PORT = process.env.PORT || 3000;
 
-// Create a new user
-async function createUser(email, password) {
-  const existing = users.find(u => u.email === email);
-  if (existing) return { error: 'Email already registered' };
+// Serve all files from current folder
+app.use(express.static(__dirname));
 
-  const hashed = await bcrypt.hash(password, 10);
-  const user = { id: Date.now().toString(), email, password: hashed };
-  users.push(user);
-  return { user: { id: user.id, email: user.email } };
-}
+// Open index.html when site loads
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
 
-// Verify login credentials
-async function findUser(email, password) {
-  const user = users.find(u => u.email === email);
-  if (!user) return { error: 'No account found with this email' };
-
-  const match = await bcrypt.compare(password, user.password);
-  if (!match) return { error: 'Incorrect password' };
-
-  return { user: { id: user.id, email: user.email } };
-}
-
-module.exports = { createUser, findUser };
+app.listen(PORT, () => {
+  console.log(`✅ FinanceApp running at http://localhost:${PORT}`);
+});
