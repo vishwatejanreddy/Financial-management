@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FinanceIQ — Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="dashboard-page">
+
+  <!-- Top Navigation -->
+  <nav class="topnav">
+    <div class="nav-brand">
+      <span class="logo-icon">◈</span>
+      <span class="logo-text">FinanceIQ</span>
+    </div>
+    <div class="nav-right">
+      <span class="nav-user" id="nav-email">—</span>
+      <button class="btn-logout" onclick="logout()">Logout</button>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="dash-main">
+
+    <!-- Hero Section -->
+    <section class="dash-hero">
+      <h2 class="dash-title">Financial <em>Health</em> Check</h2>
+      <p class="dash-subtitle">Enter your details to get your personalised EMI eligibility and product recommendations.</p>
+    </section>
+
+    <!-- Input Form Card -->
+    <section class="dash-form-section">
+      <div class="card form-card">
+        <div class="card-header">
+          <span class="card-icon">📋</span>
+          <h3>Your Financial Profile</h3>
+        </div>
+        <form id="finance-form" onsubmit="handleCalculate(event)">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Full Name</label>
+              <input type="text" id="f-name" placeholder="e.g. Arjun Sharma" required />
+            </div>
+            <div class="form-group">
+              <label>Monthly Income <span class="hint">(₹)</span></label>
+              <input type="number" id="f-income" placeholder="e.g. 60000" min="1" required />
+            </div>
+            <div class="form-group">
+              <label>Monthly Expenses <span class="hint">(₹)</span></label>
+              <input type="number" id="f-expenses" placeholder="e.g. 25000" min="0" required />
+            </div>
+            <div class="form-group">
+              <label>CIBIL Score <span class="hint">(300–900)</span></label>
+              <input type="number" id="f-cibil" placeholder="e.g. 750" min="300" max="900" required />
+            </div>
+            <div class="form-group">
+              <label>EMI Tenure</label>
+              <select id="f-tenure">
+                <option value="6">6 Months</option>
+                <option value="12" selected>12 Months</option>
+                <option value="24">24 Months</option>
+              </select>
+            </div>
+          </div>
+          <div id="calc-error" class="form-error hidden"></div>
+          <button type="submit" class="btn-primary" id="calc-btn">
+            <span class="btn-text">Analyse My Finances →</span>
+            <span class="btn-loader hidden">●●●</span>
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Results Section (hidden until calculated) -->
+    <section id="results-section" class="hidden">
+
+      <!-- Summary Cards Row -->
+      <div class="results-summary" id="summary-cards"></div>
+
+      <!-- CIBIL Status Banner -->
+      <div id="cibil-banner" class="cibil-banner"></div>
+
+      <!-- Product Recommendations -->
+      <div class="section-label">
+        <span>EMI Product Suggestions</span>
+        <small id="products-note"></small>
+      </div>
+      <div class="products-grid" id="products-grid"></div>
+
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
